@@ -29,10 +29,13 @@ class RemoteTransFirstTransactionExpressTest < Test::Unit::TestCase
     }
   end
 
-  def test_invalid_login
+  def test_invalid_credentials
     gateway = TransFirstTransactionExpressGateway.new(gateway_id: "", reg_key: "")
-    response = gateway.purchase(@amount, @credit_card, @options)
-    assert_failure response
+    assert !gateway.valid_credentials?
+  end
+
+  def test_valid_credentials
+    assert @gateway.valid_credentials?
   end
 
   def test_successful_purchase

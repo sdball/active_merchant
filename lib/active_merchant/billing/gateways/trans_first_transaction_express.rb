@@ -183,6 +183,15 @@ module ActiveMerchant #:nodoc:
         super
       end
 
+      def valid_credentials?
+        request = build_xml_transaction_request do |doc|
+          # empty
+        end
+
+        response = commit(:verify, request)
+        response.params.fetch("faultstring") { nil } != "Validation Failure"
+      end
+
       def purchase(amount, payment_method, options={})
         if credit_card?(payment_method)
           action = :purchase
