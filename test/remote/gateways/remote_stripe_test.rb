@@ -17,6 +17,15 @@ class RemoteStripeTest < Test::Unit::TestCase
     }
   end
 
+  def test_invalid_credentials
+    gateway = StripeGateway.new(login: '')
+    assert !gateway.valid_credentials?
+  end
+
+  def test_valid_credentials
+    assert @gateway.valid_credentials?
+  end
+
   def test_transcript_scrubbing
     transcript = capture_transcript(@gateway) do
       @gateway.purchase(@amount, @credit_card, @options)

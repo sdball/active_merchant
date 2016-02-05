@@ -54,6 +54,14 @@ module ActiveMerchant #:nodoc:
         super
       end
 
+      def valid_credentials?
+        post = {}
+        response = commit(:post, 'changes', post)
+        error_message = response.params.fetch("error", {})["message"]
+
+        error_message != "Invalid API Key provided: "
+      end
+
       def authorize(money, payment, options = {})
         MultiResponse.run do |r|
           if payment.is_a?(ApplePayPaymentToken)
