@@ -189,7 +189,7 @@ module ActiveMerchant #:nodoc:
         end
 
         response = commit(:verify, request)
-        response.params.fetch("faultstring") { nil } != "Validation Failure"
+        response.params["faultstring"] != "Validation Failure"
       end
 
       def purchase(amount, payment_method, options={})
