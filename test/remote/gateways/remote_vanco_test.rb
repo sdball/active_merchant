@@ -15,6 +15,15 @@ class RemoteVancoTest < Test::Unit::TestCase
     }
   end
 
+  def test_invalid_credentials
+    gateway = VancoGateway.new(user_id: '', password: '', client_id: '')
+    assert !gateway.valid_credentials?
+  end
+
+  def test_valid_credentials
+    assert @gateway.valid_credentials?
+  end
+
   def test_successful_purchase
     response = @gateway.purchase(@amount, @credit_card, @options)
     assert_success response

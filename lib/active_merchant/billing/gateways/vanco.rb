@@ -20,6 +20,15 @@ module ActiveMerchant
         super
       end
 
+      def valid_credentials?
+        response = commit(login_request)
+
+        login_request = (response.params["auth_requesttype"] == "Login")
+        response_errors = response.params["response_errors"]
+
+        login_request && !response_errors
+      end
+
       def purchase(money, payment_method, options={})
         MultiResponse.run do |r|
           r.process { commit(login_request) }
